@@ -143,6 +143,7 @@ iRateErrorCode;
 @property (nonatomic, assign) BOOL ratedThisVersion;
 @property (nonatomic, readonly) BOOL ratedAnyVersion;
 @property (nonatomic, weak_delegate) id<iRateDelegate> delegate;
+@property (nonatomic, assign) NSUInteger storeKitSupportedInterfaceOrientations;
 
 //manually control behaviour
 - (BOOL)shouldPromptForRating;

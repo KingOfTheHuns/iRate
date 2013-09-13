@@ -66,6 +66,25 @@ static NSString *const iRateMacAppStoreURLFormat = @"macappstore://itunes.apple.
 #define MAC_APP_STORE_REFRESH_DELAY 5.0
 #define REQUEST_TIMEOUT 60.0
 
+#if IRATE_USE_STOREKIT
+@interface iRateStoreProductViewController : SKStoreProductViewController
+@property (nonatomic,assign) NSUInteger iRateSupportedInterfaceOrientations;
+@end
+
+@implementation iRateStoreProductViewController
+
+-(id) init {
+    if ((self = [super init])) {
+        _iRateSupportedInterfaceOrientations = UIInterfaceOrientationMaskAll;
+    }
+    return self;
+}
+
+-(NSUInteger)supportedInterfaceOrientations {
+    return self.iRateSupportedInterfaceOrientations;
+}
+@end
+#endif
 
 @interface iRate()
 
@@ -173,6 +192,7 @@ static NSString *const iRateMacAppStoreURLFormat = @"macappstore://itunes.apple.
         self.remindPeriod = 1.0f;
         self.verboseLogging = NO;
         self.previewMode = NO;
+        self.storeKitSupportedInterfaceOrientations = UIInterfaceOrientationMaskAll;
         
 #if DEBUG
         
@@ -797,7 +817,8 @@ static NSString *const iRateMacAppStoreURLFormat = @"macappstore://itunes.apple.
         }
         
         //create store view controller
-        SKStoreProductViewController *productController = [[SKStoreProductViewController alloc] init];
+        iRateStoreProductViewController *productController = [[iRateStoreProductViewController alloc] init];
+        productController.iRateSupportedInterfaceOrientations = self.storeKitSupportedInterfaceOrientations;
         productController.delegate = (id<SKStoreProductViewControllerDelegate>)self;
         
         //load product details
